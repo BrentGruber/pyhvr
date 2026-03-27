@@ -80,7 +80,10 @@ class HvrClient(
         self._access_token: str | None = None
         self._refresh_token: str | None = None
         self._token_expires_at: float = 0.0
-        self._http = httpx.Client()
+
+        import ssl
+        ssl_context = ssl.create_default_context()
+        self._http = httpx.Client(verify=ssl_context)
 
     def __enter__(self) -> HvrClient:
         self._login()
@@ -181,7 +184,10 @@ class AsyncHvrClient(
         self._access_token: str | None = None
         self._refresh_token: str | None = None
         self._token_expires_at: float = 0.0
-        self._http = httpx.AsyncClient()
+
+        import ssl
+        ssl_context = ssl.create_default_context()
+        self._http = httpx.AsyncClient(verify=ssl_context)
 
     async def __aenter__(self) -> AsyncHvrClient:
         await self._login()
